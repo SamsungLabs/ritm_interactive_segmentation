@@ -5,8 +5,8 @@ scikit-image
 opencv-python-headless
 Pillow
 matplotlib
-imgaug
-albumentations
+imgaug>=0.4
+albumentations>0.5
 graphviz
 tqdm
 pyyaml
