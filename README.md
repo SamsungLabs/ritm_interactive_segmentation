@@ -1,8 +1,8 @@
 ## Reviving Iterative Training with Mask Guidance for Interactive Segmentation 
 
 <p align="center">
-    <a href="https://arxiv.org/abs/">
-        <img src="https://img.shields.io/badge/arXiv-11234.5678-b31b1b"/>
+    <a href="https://arxiv.org/abs/2102.06583">
+        <img src="https://img.shields.io/badge/arXiv-2102.06583-b31b1b"/>
     </a>
     <a href="https://colab.research.google.com/github/saic-vul/ritm_interactive_segmentation/blob/master/notebooks/colab_test_any_model.ipynb">
         <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
@@ -22,7 +22,7 @@ This repository provides the source code for training and testing state-of-the-a
 > **Reviving Iterative Training with Mask Guidance for Interactive Segmentation**<br>
 > [Konstantin Sofiiuk](https://github.com/ksofiyuk), [Ilia Petrov](https://github.com/ptrvilya), [Anton Konushin](https://scholar.google.com/citations?user=ZT_k-wMAAAAJ) <br>
 > Samsung AI Center Moscow <br>
-> https://arxiv.org/abs/
+> https://arxiv.org/abs/2102.06583
 >
 > **Abstract:** *Recent works on click-based interactive segmentation have demonstrated state-of-the-art results by 
 > using various inference-time optimization schemes. These methods are considerably more computationally expensive 
@@ -333,7 +333,7 @@ If you find this work is useful for your research, please cite our papers:
 @article{reviving2021,
   title={Reviving Iterative Training with Mask Guidance for Interactive Segmentation},
   author={Konstantin Sofiiuk, Ilia Petrov, Anton Konushin},
-  journal={arXiv preprint arXiv:},
+  journal={arXiv preprint arXiv:2102.06583},
   year={2021}
 }
 
