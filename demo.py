@@ -25,7 +25,8 @@ def main():
 def parse_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--checkpoint', type=str, required=True,
+    parser.add_argument('--checkpoint', type=str, #required=True,
+                        default='coco_lvis_h18_itermask.pth',
                         help='The path to the checkpoint. '
                              'This can be a relative path (relative to cfg.INTERACTIVE_MODELS_PATH) '
                              'or an absolute path. The file extension can be omitted.')
@@ -33,7 +34,7 @@ def parse_args():
     parser.add_argument('--gpu', type=int, default=0,
                         help='Id of GPU to use.')
 
-    parser.add_argument('--cpu', action='store_true', default=False,
+    parser.add_argument('--cpu', action='store_true', default=True,
                         help='Use only CPU for inference.')
 
     parser.add_argument('--limit-longest-size', type=int, default=800,
