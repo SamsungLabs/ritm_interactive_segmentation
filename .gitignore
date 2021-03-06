@@ -7,3 +7,4 @@ pretrained_models
 *.ipynb_checkpoints*
 *.yml
 *.json
+datasets/
