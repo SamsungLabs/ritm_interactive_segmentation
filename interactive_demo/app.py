@@ -36,6 +36,7 @@ class InteractiveDemoApp(ttk.Frame):
         self._add_buttons()
 
         master.bind('<space>', lambda event: self.controller.finish_object())
+        # master.bind('<Enter>', lambda event: self.controller.finish_object())
         master.bind('a', lambda event: self.controller.partially_finish_object())
 
         self.state['zoomin_params']['skip_clicks'].trace(mode='w', callback=self._reset_predictor)
@@ -58,7 +59,7 @@ class InteractiveDemoApp(ttk.Frame):
             'predictor_params': {
                 'net_clicks_limit': tk.IntVar(value=8)
             },
-            'brs_mode': tk.StringVar(value='NoBRS'),
+            'brs_mode': tk.StringVar(value='f-BRS-B'),
             'prob_thresh': tk.DoubleVar(value=0.5),
             'lbfgs_max_iters': tk.IntVar(value=20),
 
