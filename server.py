@@ -168,6 +168,6 @@ def view_image(filename:str):
         
 
 if __name__ == "__main__":
-    streamer = ThreadedStreamer(predict, batch_size=1, max_latency=0.1)
-    app.run(port=5005, debug=True, host= '0.0.0.0')
+    streamer = ThreadedStreamer(predict, batch_size=1, max_latency=0.01)
+    app.run(port=5005, debug=False, host= '0.0.0.0')
     print('Flask started')
