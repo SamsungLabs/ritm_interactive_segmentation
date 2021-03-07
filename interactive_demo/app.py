@@ -15,7 +15,7 @@ class InteractiveDemoApp(ttk.Frame):
     def __init__(self, master, args, model):
         super().__init__(master)
         self.master = master
-        master.title("Reviving Iterative Training with Mask Guidance for Interactive Segmentation")
+        master.title("Interactive Segmentation")
         master.withdraw()
         master.update_idletasks()
         x = (master.winfo_screenwidth() - master.winfo_reqwidth()) / 2
@@ -27,7 +27,7 @@ class InteractiveDemoApp(ttk.Frame):
         self.limit_longest_size = args.limit_longest_size
 
         self.controller = InteractiveController(model, args.device,
-                                                predictor_params={'brs_mode': 'NoBRS'},
+                                                predictor_params={'brs_mode': 'f-BRS-B'},
                                                 update_image_callback=self._update_image)
 
         self._init_state()
