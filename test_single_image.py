@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-import sys
+import sys, random
 import numpy as np
 import torch
 
@@ -31,23 +31,8 @@ model = utils.load_is_model(checkpoint_path, device)
 brs_mode = 'f-BRS-B'
 predictor = get_predictor(model, brs_mode, device, prob_thresh=MODEL_THRESH)
 
-## dataset evaluation
-# TARGET_IOU = 0.9
-
-# all_ious, elapsed_time = evaluate_dataset(dataset, predictor, pred_thr=MODEL_THRESH, 
-#                                           max_iou_thr=TARGET_IOU, max_clicks=EVAL_MAX_CLICKS)
-# mean_spc, mean_spi = utils.get_time_metrics(all_ious, elapsed_time)
-# noc_list, over_max_list = utils.compute_noc_metric(all_ious,
-#                                                    iou_thrs=[0.8, 0.85, 0.9],
-#                                                    max_clicks=EVAL_MAX_CLICKS)
-
-# header, table_row = utils.get_results_table(noc_list, over_max_list, brs_mode, DATASET,
-#                                             mean_spc, elapsed_time, EVAL_MAX_CLICKS)
-# print(header)
-# print(table_row)
-
-## single sample eval
-sample_id = 12
+## single sample test
+sample_id = random.sample(range(len(dataset)),1)[0]
 TARGET_IOU = 0.95
 
 sample = dataset.get_sample(sample_id)

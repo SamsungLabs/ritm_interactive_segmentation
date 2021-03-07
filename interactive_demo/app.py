@@ -36,7 +36,7 @@ class InteractiveDemoApp(ttk.Frame):
         self._add_buttons()
 
         master.bind('<space>', lambda event: self.controller.finish_object())
-        master.bind('<Enter>', lambda event: self.controller.finish_object())
+        # master.bind('<Enter>', lambda event: self.controller.finish_object())
         master.bind('a', lambda event: self.controller.partially_finish_object())
 
         self.state['zoomin_params']['skip_clicks'].trace(mode='w', callback=self._reset_predictor)

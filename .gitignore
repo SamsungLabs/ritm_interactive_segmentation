@@ -8,3 +8,4 @@ pretrained_models
 *.yml
 *.json
 datasets/
+temp/
