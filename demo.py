@@ -34,7 +34,7 @@ def parse_args():
     parser.add_argument('--gpu', type=int, default=0,
                         help='Id of GPU to use.')
 
-    parser.add_argument('--cpu', action='store_true', default=True,
+    parser.add_argument('--cpu', action='store_true', default=False,
                         help='Use only CPU for inference.')
 
     parser.add_argument('--limit-longest-size', type=int, default=800,

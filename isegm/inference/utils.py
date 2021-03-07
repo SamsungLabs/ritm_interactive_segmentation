@@ -7,13 +7,14 @@ import numpy as np
 from isegm.data.datasets import GrabCutDataset, BerkeleyDataset, DavisDataset, SBDEvaluationDataset, PascalVocDataset
 from isegm.utils.serialization import load_model
 
+eps = 1e-8
 
 def get_time_metrics(all_ious, elapsed_time):
     n_images = len(all_ious)
     n_clicks = sum(map(len, all_ious))
 
-    mean_spc = elapsed_time / n_clicks
-    mean_spi = elapsed_time / n_images
+    mean_spc = elapsed_time / (n_clicks+eps)
+    mean_spi = elapsed_time / (n_images+eps)
 
     return mean_spc, mean_spi
 

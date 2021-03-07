@@ -21,6 +21,7 @@ EVAL_MAX_CLICKS = 20
 MODEL_THRESH = 0.49
 TARGET_IOU = 0.95
 TEMP_PATH = 'temp/'
+os.makedirs(TEMP_PATH, exist_ok=True)
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 cfg = exp.load_config_file('./config.yml', return_edict=True)
