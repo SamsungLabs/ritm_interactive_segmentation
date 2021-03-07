@@ -1,6 +1,20 @@
 ## Reviving Iterative Training with Mask Guidance for Interactive Segmentation 
 
 <p align="center">
+    <a href="https://paperswithcode.com/sota/interactive-segmentation-on-grabcut?p=reviving-iterative-training-with-mask">
+        <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/reviving-iterative-training-with-mask/interactive-segmentation-on-grabcut"/>
+    </a>
+    <a href="https://paperswithcode.com/sota/interactive-segmentation-on-berkeley?p=reviving-iterative-training-with-mask">
+        <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/reviving-iterative-training-with-mask/interactive-segmentation-on-berkeley"/>
+    </a>
+</p>
+
+<p align="center">
+  <img src="./assets/img/teaser.gif" alt="drawing", width="420"/>
+  <img src="./assets/img/miou_berkeley.png" alt="drawing", width="400"/>
+</p>
+
+<p align="center">
     <a href="https://arxiv.org/abs/2102.06583">
         <img src="https://img.shields.io/badge/arXiv-2102.06583-b31b1b"/>
     </a>
@@ -10,11 +24,6 @@
     <a href="https://opensource.org/licenses/MIT">
         <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="The MIT License"/>
     </a>
-</p>
-
-<p align="center">
-  <img src="./assets/img/teaser.gif" alt="drawing", width="420"/>
-  <img src="./assets/img/miou_berkeley.png" alt="drawing", width="400"/>
 </p>
 
 This repository provides the source code for training and testing state-of-the-art click-based interactive segmentation models with the official PyTorch implementation of the following paper:
