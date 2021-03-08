@@ -50,7 +50,26 @@ You can also use our [Dockerfile](./Dockerfile) to build a container with the co
 
 If you want to run training or testing, you must configure the paths to the datasets in [config.yml](config.yml).
 
-## Interactive Segmentation Demo
+## 本地测试
+```
+test_interaction.ipynb # 交互式
+python test_single_image.py # 单张图片测试
+```
+## RESTFul服务器测试
+服务器上执行
+```
+python server.py
+```
+本地运行
+```
+test_server.ipynb
+```
+效果
+<p align="center">
+  <img src="./assets/img/ritm.gif" alt="drawing" width="99%"/>
+</p>
+
+## Interactive Segmentation Demo （原作者自带的Demo，可以玩玩）
 
 <p align="center">
   <img src="./assets/img/demo_gui.jpg" alt="drawing" width="99%"/>
