@@ -15,7 +15,7 @@ cfg = exp.load_config_file('./config.yml', return_edict=True)
 
 ## init dateset
 # Possible choices: 'GrabCut', 'Berkeley', 'DAVIS', 'COCO_MVal', 'SBD'
-DATASET = 'GrabCut'
+DATASET = 'Berkeley'
 dataset = utils.get_dataset(DATASET, cfg)
 
 ## init model
