@@ -3,7 +3,7 @@ from operator import pos
 import matplotlib.pyplot as plt
 import sys, random, os, json, glob
 import numpy as np
-import torch
+import torch, cv2
 from isegm.utils import vis, exp
 from isegm.inference import utils
 from isegm.inference.evaluation import evaluate_dataset, evaluate_sample
@@ -42,22 +42,22 @@ app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
 def main():
     """Main method for interactive segmentation
     """
-    file = request.files.get('image', None)
+    img_file = request.files.get('image', None)
+    gt_mask_file = request.files.get('gt_mask', None)
     click_history = eval(request.form['click_history'])
     prev_polygon = eval(request.form['prev_polygon'])
     file_url:str = request.form.get('file_url', None)
-    prev_mask = request.files.get('prev_mask', None) #TODO: use mask to improve precision
+    prev_mask = request.files.get('prev_mask', None) 
     tolerance = int(request.form.get('tolerance', 1))
-    gt_mask = request.form.get('gt_mask', None)
     view_img = request.form.get('view_img', False)
     view_img = True if view_img.lower() == 'true' else False
     img:Image = None
     filename:str = None
 
     # Read file from cache or from OSS or from http request
-    if file:
-        filename = secure_filename(file.filename)
-        img = Image.open(file)
+    if img_file:
+        filename = secure_filename(img_file.filename)
+        img = Image.open(img_file)
     else:
         # try load from temp first
         filename = file_url.split('/')[-1]
@@ -79,30 +79,15 @@ def main():
             img.save(file_path)
     
     # processing imputs
-    img, clicks, prev_mask = processing_inputs(img, click_history, prev_polygon)
+    img_np, clicks, prev_mask = processing_inputs(img, click_history, prev_polygon)
     
     # make prediction
-    outputs = streamer.predict([(img, clicks, prev_mask)])
-    assert len(outputs) == 1, f'Only one output is expected, but got {len(outputs)}'
-    pred_probs = outputs[0]
-    pred_mask = pred_probs > MODEL_THRESH 
+    pred_probs = streamer.predict([(img_np, clicks, prev_mask)])
+    
+    # prepare result
+    results = prepare_result(img_np, pred_probs, clicks, gt_mask_file, tolerance, view_img, filename)
 
-    # polygonize the result
-    polygons = polygonize(pred_mask, tolerance=tolerance) 
-    results = {'polygons': polygons}
-    if gt_mask:
-        iou = utils.get_iou(gt_mask, pred_mask)
-        results['iou'] = iou
-
-    # save img with minor delay
-    if view_img:
-        ext = filename.split('.')[-1]
-        draw = vis.draw_with_blend_and_clicks(img, mask=pred_mask, clicks_list=clicks.clicks_list)
-        filename = filename.split('.')[0] + f'[{len(click_history)}].jpg'
-        result_path = TEMP_PATH + filename
-        Image.fromarray(draw).save(result_path)
-        # return send_file(result_path)
-        results['result'] = filename
+    # return
     return jsonify(results)
 
 def processing_inputs(img:Image, click_history:list, prev_polygon:list):
@@ -144,20 +129,53 @@ def predict(batch):
     return [pred_probs] # resume wrapped
 
 
-def polygonize(result:np.ndarray, tolerance:int=1):
-    """Post processing step to convert mask to polygon
+def prepare_result(img:np.ndarray, pred_probs:np.ndarray, clicks:Clicker, gt_mask_file, tolerance:int=1, view_img:bool=False, filename:str=None):
+    """prepare result
 
     Args:
-        result (np.ndarray): Model redicted result
-        tolerance (int, optional): Tolerance to convert to polygon, in pixel. Defaults to 2.
+        img (np.ndarray): img in numpy.ndarray 
+        pred_mask (np.ndarray): predicted mask from model
+        clicks(Clicker): Cliker object for click history
+        gt_mask_file (FileStorage): ground truth mask file
+        tolerance (int, optional): Precision to convert from mask to polygon in pixel. Defaults to 1.
+        view_img (bool, optional): Return result image url. Defaults to False.
     """
-    regions = Mask(result).polygons().points
+    # gen mask
+    assert len(pred_probs) == 1, f'Only one output is expected, but got {len(pred_probs)}'
+    pred_probs = pred_probs[0]
+    pred_mask = pred_probs > MODEL_THRESH
+
+    # convert mask to polygon
+    regions = Mask(pred_mask).polygons().points
     polygons = []
     for polygon in regions:
         polygon2 = measure.approximate_polygon(polygon, tolerance)
         polygons.append(polygon2.tolist())
+    results = {'polygons': polygons}
 
-    return polygons
+    # calculate iou
+    if gt_mask_file:
+        gt_mask = Image.open(gt_mask_file)
+        mask_np = np.asarray(gt_mask, dtype=np.int32)
+        if len(mask_np.shape) > 2:
+            assert len(mask_np.shape) == 3
+            mask_np = np.max(mask_np, axis=2)
+        mask_np = np.where(mask_np>0, 1, 0)
+        iou = utils.get_iou(mask_np, pred_mask)
+        results['iou'] = iou
+        print(iou)
+
+    # save img with minor delay
+    if view_img:
+        ext = filename.split('.')[-1]
+        draw = vis.draw_with_blend_and_clicks(img, mask=pred_mask, clicks_list=clicks.clicks_list)
+        filename = filename.split('.')[0] + f'[{len(clicks.clicks_list)}].jpg'
+        result_path = TEMP_PATH + filename
+        Image.fromarray(draw).save(result_path)
+        # return send_file(result_path)
+        results['result'] = filename
+
+    return results
 
 @app.route("/view_image/<filename>", methods=["GET"])
 def view_image(filename:str):
@@ -169,5 +187,5 @@ def view_image(filename:str):
 
 if __name__ == "__main__":
     streamer = ThreadedStreamer(predict, batch_size=1, max_latency=0.01)
-    app.run(port=5005, debug=False, host= '0.0.0.0')
+    app.run(port=5005, debug=True, host= '0.0.0.0')
     print('Flask started')

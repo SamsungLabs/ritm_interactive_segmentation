@@ -12,3 +12,4 @@ temp/
 images/
 .gitignore
 weights/coco_lvis_h32_itermask.pth
+.vscode/
