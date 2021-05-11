@@ -45,10 +45,7 @@ def parse_args():
                         help='The path to the config file.')
 
     args = parser.parse_args()
-    if args.cpu:
-        args.device =torch.device('cpu')
-    else:
-        args.device = torch.device(f'cuda:{args.gpu}')
+    args.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     cfg = exp.load_config_file(args.cfg, return_edict=True)
 
     return args, cfg
