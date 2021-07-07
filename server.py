@@ -18,6 +18,7 @@ from werkzeug.utils import secure_filename
 from service_streamer import ThreadedStreamer, Streamer
 import urllib.request
 import ssl
+from flask_cors import CORS, cross_origin
 
 EVAL_MAX_CLICKS = 20
 MODEL_THRESH = 0.49
@@ -39,6 +40,7 @@ predictor = get_predictor(model, brs_mode, device, prob_thresh=MODEL_THRESH)
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 10 # 10MB max
 app.config['UPLOAD_EXTENSIONS'] = ['.jpg', '.png', '.gif']
+cors = CORS(app)
 
 @app.route("/interactive_segmentation", methods=["POST"])
 def main():
@@ -52,7 +54,8 @@ def main():
     prev_mask = request.files.get('prev_mask', None) 
     tolerance = int(request.form.get('tolerance', 1))
     view_img = request.form.get('view_img', False)
-    view_img = True if view_img.lower() == 'true' else False
+    view_img = False
+    # view_img = True if view_img.lower() == 'true' else False
     img:Image = None
     filename:str = None
 
