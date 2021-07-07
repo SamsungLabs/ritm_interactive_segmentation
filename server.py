@@ -16,6 +16,7 @@ from datetime import datetime
 from flask import Flask, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 from service_streamer import ThreadedStreamer, Streamer
+import urllib.request
 
 EVAL_MAX_CLICKS = 20
 MODEL_THRESH = 0.49
@@ -73,10 +74,11 @@ def main():
                 # img = ...
             img.save(file_path)
         elif file_url: #TODO
-            filename = file_url.split('/')[-1]
+            # filename = file_url.split('/')[-1]
+            urllib.request.urlretrieve(file_url, file_path)
             # load file from url
-            # img = ...
-            img.save(file_path)
+            img = Image.open(file_path)
+            # img.save(file_path)
     
     # processing imputs
     img_np, clicks, prev_mask = processing_inputs(img, click_history, prev_polygon)
