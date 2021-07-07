@@ -17,6 +17,7 @@ from flask import Flask, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 from service_streamer import ThreadedStreamer, Streamer
 import urllib.request
+import ssl
 
 EVAL_MAX_CLICKS = 20
 MODEL_THRESH = 0.49
@@ -75,6 +76,7 @@ def main():
             img.save(file_path)
         elif file_url: #TODO
             # filename = file_url.split('/')[-1]
+            ssl._create_default_https_context = ssl._create_unverified_context
             urllib.request.urlretrieve(file_url, file_path)
             # load file from url
             img = Image.open(file_path)
