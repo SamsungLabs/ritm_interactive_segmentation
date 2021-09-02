@@ -149,7 +149,7 @@ We train all our models on SBD and COCO+LVIS and evaluate them on GrabCut, Berke
 |-----------|----------------------------------------------|:------------------------------------:|
 |ADE20k     |  22k images with 434k instances (total)      |  [official site][ADE20k]             |
 |OpenImages |  944k images with 2.6M instances (total)     |  [official site][OpenImages]         |
-|MS COCO    |  118k images with 1.2M instances (train)     |  [official site][GrabCut]            |
+|MS COCO    |  118k images with 1.2M instances (train)     |  [official site][MSCOCO]             |
 |LVIS v1.0  |  100k images with 1.2M instances (total)     |  [official site][LVIS]               |
 |COCO+LVIS* |  99k images with 1.5M instances (train)      |  [original LVIS images][LVIS] + <br> [our combined annotations][COCOLVIS_annotation] |
 |SBD        |  8498 images with 20172 instances for (train)<br>2857 images with 6671 instances for (test) |[official site][SBD]|
