@@ -70,11 +70,15 @@ class CanvasImage:
         self.canvas.bind('<Configure>', lambda event: self.__size_changed())  # canvas is resized
         self.canvas.bind('<Button-1>', self.__left_mouse_button)  # remember canvas position
         self.canvas.bind('<ButtonPress-3>', self.__right_mouse_button_pressed)  # remember canvas position
+        self.canvas.bind('<ButtonPress-2>', self.__right_mouse_button_pressed)  # remember canvas position (MacOS)
         self.canvas.bind('<ButtonRelease-3>', self.__right_mouse_button_released)  # remember canvas position
+        self.canvas.bind('<ButtonRelease-2>', self.__right_mouse_button_released)  # remember canvas position (MacOS)
         self.canvas.bind('<B3-Motion>', self.__right_mouse_button_motion)  # move canvas to the new position
+        self.canvas.bind('<B2-Motion>', self.__right_mouse_button_motion)  # move canvas to the new position
         self.canvas.bind('<MouseWheel>', self.__wheel)  # zoom for Windows and MacOS, but not Linux
         self.canvas.bind('<Button-5>', self.__wheel)  # zoom for Linux, wheel scroll down
         self.canvas.bind('<Button-4>', self.__wheel)  # zoom for Linux, wheel scroll up
+        
         # Handle keystrokes in idle mode, because program slows down on a weak computers,
         # when too many key stroke events in the same time
         self.canvas.bind('<Key>', lambda event: self.canvas.after_idle(self.__keystroke, event))
@@ -223,7 +227,7 @@ class CanvasImage:
             self._change_canvas_scale(new_scale)
         self.__show_image()
 
-    # ================================================ Mouse callbacks =================================================
+    # ================================================ Mouse callbacks =================================================  
     def __wheel(self, event):
         """ Zoom with mouse wheel """
         x = self.canvas.canvasx(event.x)  # get coordinates of the event on the canvas
@@ -232,14 +236,14 @@ class CanvasImage:
 
         scale = 1.0
         # Respond to Linux (event.num) or Windows (event.delta) wheel event
-        if event.num == 5 or event.delta == -120:  # scroll down, zoom out, smaller
+        if event.num == 5 or event.delta == -120 or event.delta == 1:  # scroll down, zoom out, smaller
             scale /= self.__delta
-        if event.num == 4 or event.delta == 120:  # scroll up, zoom in, bigger
+        if event.num == 4 or event.delta == 120 or event.delta == -1:  # scroll up, zoom in, bigger
             scale *= self.__delta
 
         self._change_canvas_scale(scale, x, y)
         self.__show_image()
-
+    
     def __left_mouse_button(self, event):
         if self._click_callback is None:
             return
