@@ -341,15 +341,16 @@ If you find this work is useful for your research, please cite our papers:
 ```
 @article{reviving2021,
   title={Reviving Iterative Training with Mask Guidance for Interactive Segmentation},
-  author={Konstantin Sofiiuk, Ilia Petrov, Anton Konushin},
+  author={Sofiiuk, Konstantin and Petrov, Ilia and Konushin, Anton},
   journal={arXiv preprint arXiv:2102.06583},
   year={2021}
 }
 
-@article{fbrs2020,
-  title={f-BRS: Rethinking Backpropagating Refinement for Interactive Segmentation},
-  author={Konstantin Sofiiuk, Ilia Petrov, Olga Barinova, Anton Konushin},
-  journal={arXiv preprint arXiv:2001.10331},
-  year={2020}
+@inproceedings{fbrs2020,
+   title={f-brs: Rethinking backpropagating refinement for interactive segmentation},
+   author={Sofiiuk, Konstantin and Petrov, Ilia and Barinova, Olga and Konushin, Anton},
+   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+   pages={8623--8632},
+   year={2020}
 }
 ```
