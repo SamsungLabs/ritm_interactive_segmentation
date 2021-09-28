@@ -1,37 +1,24 @@
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+FROM supervisely/base-py-sdk:6.1.97
 
-ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y \
+openssh-server \
+python3-tk \
+sudo
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        build-essential \
-	    git \
-	    curl \
-        libglib2.0-0 \
-        software-properties-common \
-        python3.6-dev \
-        python3-pip \
-        python3-tk
-
-WORKDIR /tmp
-
-RUN pip3 install --upgrade pip
-RUN pip3 install setuptools
-RUN pip3 install matplotlib numpy pandas scipy tqdm pyyaml easydict scikit-image bridson Pillow ninja
-RUN pip3 install imgaug mxboard graphviz
-RUN pip3 install albumentations --no-deps
-RUN pip3 install opencv-python-headless
-RUN pip3 install Cython
-RUN pip3 install torch
-RUN pip3 install torchvision
-RUN pip3 install scikit-learn
-RUN pip3 install tensorboard
-
-RUN mkdir /work
 WORKDIR /work
-RUN chmod -R 777 /work && chmod -R 777 /root
 
-ENV TINI_VERSION v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
-RUN chmod +x /usr/bin/tini
-ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "/bin/bash" ]
+COPY requirements.txt /work/
+RUN pip3 install -r /work/requirements.txt
+
+RUN mkdir -p /run/sshd
+
+ARG home=/root
+RUN mkdir $home/.ssh
+COPY my_key.pub $home/.ssh/authorized_keys
+RUN chown root:root $home/.ssh/authorized_keys && \
+    chmod 600 $home/.ssh/authorized_keys
+
+COPY sshd_daemon.sh /sshd_daemon.sh
+RUN chmod 755 /sshd_daemon.sh
+CMD ["/sshd_daemon.sh"]
+ENTRYPOINT ["sh", "-c", "/sshd_daemon.sh"]
