@@ -8,3 +8,5 @@ pretrained_models
 *.ipynb_checkpoints*
 *.yml
 *.json
+my_key
+my_key.pub

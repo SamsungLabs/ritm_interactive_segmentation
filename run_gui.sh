@@ -1,7 +1,7 @@
 xhost +
 docker run --rm -it \
 -v "$PWD/src:/work" \
--v "$PWD/modeles:/models"
+-v "$PWD/modeles:/models:ro"
 -e DISPLAY=$DISPLAY \
 -v /tmp/.X11-unix:/tmp/.X11-unix \
 ritm_interactive \
