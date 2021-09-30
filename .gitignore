@@ -1,0 +1,13 @@
+.idea/*
+*__pycache__*
+weights
+experiments
+pretrained_models
+/models
+*.so
+*.ipynb_checkpoints*
+*.yml
+*.json
+my_key
+my_key.pub
+secret_debug.env
