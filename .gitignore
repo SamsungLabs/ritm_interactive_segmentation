@@ -10,3 +10,4 @@ pretrained_models
 *.json
 my_key
 my_key.pub
+secret_debug.env
