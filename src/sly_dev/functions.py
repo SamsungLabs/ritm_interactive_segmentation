@@ -1,5 +1,6 @@
 import os
 import supervisely_lib as sly
+from isegm.inference.clicker import Click
 
 
 def get_points_from_image(labels):
@@ -14,3 +15,14 @@ def get_points_from_image(labels):
                 clicks["neg"].append(click_coords)
     return clicks
 
+
+def get_click_list_from_map(clicks_map):
+    clicks_list = []
+    for coords in clicks_map["pos"]:
+        click = Click(True, (coords[1], coords[0]))
+        clicks_list.append(click)
+
+    for coords in clicks_map["neg"]:
+        click = Click(False, (coords[1], coords[0]))
+        clicks_list.append(click)
+    return clicks_list

@@ -8,7 +8,7 @@ from isegm.utils.vis import draw_with_blend_and_clicks
 
 
 class InteractiveController:
-    def __init__(self, net, device, predictor_params, update_image_callback, prob_thresh=0.5):
+    def __init__(self, net, device, predictor_params, update_image_callback=None, prob_thresh=0.5):
         self.net = net
         self.prob_thresh = prob_thresh
         self.clicker = clicker.Clicker()
@@ -30,7 +30,7 @@ class InteractiveController:
         self._result_mask = np.zeros(image.shape[:2], dtype=np.uint16)
         self.object_count = 0
         self.reset_last_object(update_image=False)
-        self.update_image_callback(reset_canvas=True)
+        #self.update_image_callback(reset_canvas=True)
 
     def set_mask(self, mask):
         if self.image.shape[:2] != mask.shape[:2]:
@@ -64,7 +64,7 @@ class InteractiveController:
         else:
             self.probs_history.append((np.zeros_like(pred), pred))
 
-        self.update_image_callback()
+        #self.update_image_callback()
 
     def undo_click(self):
         if not self.states:
