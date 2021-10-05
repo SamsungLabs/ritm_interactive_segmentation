@@ -8,6 +8,8 @@ import supervisely_lib as sly
 from isegm.inference.utils import load_is_model
 from supervisely_lib.io.fs import silent_remove, mkdir
 
+# diskcache==5.2.1
+
 
 def send_error_data(func):
     @functools.wraps(func)
@@ -22,6 +24,7 @@ def send_error_data(func):
 
     return wrapper
 
+#'nGfUNH5yJ9m19X4zb6/OGmIvGGL21wnr9f0K1/FQuLY='
 
 @g.my_app.callback("smart_segmentation")
 @sly.timeit
@@ -45,6 +48,7 @@ def smart_segmentation(api: sly.Api, task_id, context, state, app_logger):
     g.my_app.send_response(request_id, data={"origin": bitmap_origin, "bitmap": bitmap_data, "success": True, "error": None})
 
 
+#@TODO: crop image before processing
 def main():
     sly.logger.info("Script arguments", extra={
         "context.teamId": g.TEAM_ID,

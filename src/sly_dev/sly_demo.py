@@ -1,10 +1,8 @@
-import os
 import torch
 import mask_image
-import sly_functions as f
+import sly_demo_functions as df
 import supervisely_lib as sly
 from matplotlib import pyplot as plt
-from supervisely_lib.io.fs import mkdir
 from isegm.inference.utils import load_is_model
 
 
@@ -17,25 +15,13 @@ project_info = api.project.get_info_by_id(project_id)
 project_meta_json = api.project.get_meta(project_info.id)
 project_meta = sly.ProjectMeta.from_json(project_meta_json)
 
-work_dir = "/work/src/sly_dev/work_dir"
-img_dir = os.path.join(work_dir, "img")
-# ann_dir = os.path.join(work_dir, "ann")
-
-mkdir(work_dir, True)
-mkdir(img_dir)
-# mkdir(ann_dir)
-
-# image_info = api.image.get_info_by_id(image_id)
-# api.image.download_path(image_id, os.path.join(img_dir, image_info.name))
-#
-# img_path = os.path.join(img_dir, image_info.name)
 
 ann_info = api.annotation.download(image_id)
 ann_json = ann_info.annotation
 ann = sly.Annotation.from_json(ann_json, project_meta)
 
-clicks_map = f.get_points_from_image(ann.labels)
-clicks_list = f.get_click_list_from_map(clicks_map)
+clicks_map = df.get_points_from_image(ann.labels)
+clicks_list = df.get_click_list_from_map(clicks_map)
 image_np = api.image.download_np(image_id)
 
 
@@ -48,7 +34,4 @@ model = load_is_model(model, device)
 res_mask = mask_image.get_mask_from_clicks(model, image_np, clicks_list)
 
 plt.imshow(res_mask, interpolation='nearest')
-#plt.imsave("/work/src/mask.png", res_mask)
 plt.show()
-
-
