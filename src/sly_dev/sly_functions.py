@@ -20,6 +20,18 @@ def get_points_from_image(labels):
     return clicks
 
 
+def get_click_list_from_map(clicks_map):
+    clicks_list = []
+    for coords in clicks_map["pos"]:
+        click = Click(True, (coords[1], coords[0]))
+        clicks_list.append(click)
+
+    for coords in clicks_map["neg"]:
+        click = Click(False, (coords[1], coords[0]))
+        clicks_list.append(click)
+    return clicks_list
+
+
 def get_click_list_from_points(pos_points, neg_points):
     clicks_list = []
     for coords in pos_points:
@@ -84,5 +96,12 @@ def unpack_bitmap(bitmap):
 def get_image_by_hash(hash, save_path):
     g.api.image.download_paths_by_hashes([hash], [save_path])
     base_image = sly.image.read(save_path)
-    silent_remove(save_path)
+    #silent_remove(save_path)
     return base_image
+
+
+def get_bitmap_from_mask(mask):
+    # mask = mask[..., 0]
+    bool_mask = np.array(mask, dtype=bool)
+    bitmap = sly.Bitmap(bool_mask)
+    return bitmap

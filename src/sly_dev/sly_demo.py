@@ -39,7 +39,7 @@ clicks_list = f.get_click_list_from_map(clicks_map)
 image_np = api.image.download_np(image_id)
 
 
-path_to_model = "/work/models/coco_lvis_h32_itermask.pth"
+path_to_model = "/work/ritm/models/coco_lvis_h32_itermask.pth"
 device = "cpu"
 
 model = torch.load(path_to_model, map_location=torch.device(device))

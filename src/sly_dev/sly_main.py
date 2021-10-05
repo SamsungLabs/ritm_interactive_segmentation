@@ -33,15 +33,12 @@ def smart_segmentation(api: sly.Api, task_id, context, state, app_logger):
     pos_points, neg_points = f.get_pos_neg_points_list_from_context(context)
     clicks_list = f.get_click_list_from_points(pos_points, neg_points)
 
-    path_to_model = "/work/models/coco_lvis_h32_itermask.pth"
-    device = "cpu"
-    model = torch.load(path_to_model, map_location=torch.device(device))
-    model = load_is_model(model, device)
+    model = torch.load(g.model_path, map_location=torch.device(g.DEVICE))
+    model = load_is_model(model, g.DEVICE)
 
     res_mask = mask_image.get_mask_from_clicks(model, base_image_np, clicks_list)
-    # bitmap = f.get_bitmap_from_mask(res_mask)
+    bitmap = f.get_bitmap_from_mask(res_mask)
 
-    bitmap = f.get_bitmap_from_points(pos_points, neg_points)
     bitmap_origin, bitmap_data = f.unpack_bitmap(bitmap)
 
     request_id = context["request_id"]

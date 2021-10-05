@@ -9,10 +9,13 @@ TEAM_ID = int(os.environ['context.teamId'])
 WORKSPACE_ID = int(os.environ['context.workspaceId'])
 PROJECT_ID = int(os.environ["modal.state.slyProjectId"])
 
+DEVICE = "cpu"
 
-work_dir = "/work/src/sly_dev/work_dir"
+work_dir = "/work/ritm/src/sly_dev/work_dir"
 img_dir = os.path.join(work_dir, "img")
 mask_dir = os.path.join(work_dir, "mask")
+
+model_path = "/work/ritm/models/coco_lvis_h32_itermask.pth"
 
 mkdir(work_dir, True)
 mkdir(img_dir)
