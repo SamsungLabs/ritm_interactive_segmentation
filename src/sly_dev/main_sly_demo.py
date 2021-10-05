@@ -1,7 +1,7 @@
 import os
 import torch
 import mask_image
-import functions as f
+import sly_functions as f
 import supervisely_lib as sly
 from matplotlib import pyplot as plt
 from supervisely_lib.io.fs import mkdir
