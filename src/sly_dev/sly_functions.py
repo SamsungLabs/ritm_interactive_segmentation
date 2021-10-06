@@ -12,6 +12,24 @@ def get_smart_bbox(crop):
     return x1, y1, x2, y2
 
 
+def get_pos_neg_points_list_from_context_bbox_relative(x1, y1, pos_points, neg_points):
+    bbox_pos_points = []
+    for coords in pos_points:
+        x = coords[0] - x1
+        y = coords[1] - y1
+        pos_point = [x, y]
+        bbox_pos_points.append(pos_point)
+
+    bbox_neg_points = []
+    for coords in neg_points:
+        x = coords[0] - x1
+        y = coords[1] - y1
+        neg_point = [x, y]
+        bbox_neg_points.append(neg_point)
+
+    return bbox_pos_points, bbox_neg_points
+
+
 def get_click_list_from_points(pos_points, neg_points):
     clicks_list = []
     for coords in pos_points:
@@ -44,23 +62,10 @@ def get_pos_neg_points_list_from_context(context):
     return pos_points_list, neg_points_list
 
 
-def get_bitmap_from_points(pos_points, neg_points):
-    mask = np.zeros((800, 1067, 3), np.uint8)
-    for pos_point in pos_points:
-        cv2.circle(mask, (pos_point[0], pos_point[1]), 15, (255, 255, 255), -1)
-    for neg_point in neg_points:
-        cv2.circle(mask, (neg_point[0], neg_point[1]), 15, (0, 0, 0), -1)
-    sly.image.write(f'{g.my_app.data_dir}/sly_base_sir/images/smart_mask.png', mask)
-    mask = mask[..., 0]
-    bool_mask = np.array(mask, dtype=bool)
-    bitmap = sly.Bitmap(bool_mask)
-    return bitmap
-
-
-def unpack_bitmap(bitmap):
+def unpack_bitmap(bitmap, bbox_origin_y, bbox_origin_x):
     bitmap_json = bitmap.to_json()["bitmap"]
     bitmap_origin = bitmap_json["origin"]
-    bitmap_origin = {"y": bitmap_origin[1], "x": bitmap_origin[0]}
+    bitmap_origin = {"y": bbox_origin_y + bitmap_origin[1], "x": bbox_origin_x + bitmap_origin[0]}
 
     bitmap_data = bitmap_json["data"]
     return bitmap_origin, bitmap_data

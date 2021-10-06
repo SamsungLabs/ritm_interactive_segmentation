@@ -1,6 +1,5 @@
 from isegm.inference.predictors.base import BasePredictor
 from isegm.inference.clicker import Clicker
-# devices: cpu, cuda, xpu, mkldnn, opengl, opencl, ideep, hip, msnpu, mlc, xla, vulkan, meta, hpu
 
 
 def get_prediction_from_clicks(model, image_np, clicks_list, device="cpu"):
