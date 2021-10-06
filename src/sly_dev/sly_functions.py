@@ -6,6 +6,12 @@ from isegm.inference.clicker import Click
 from supervisely_lib.io.fs import silent_remove
 
 
+def get_smart_bbox(crop):
+    x1, y1 = crop[0]["x"], crop[0]["y"]
+    x2, y2 = crop[1]["x"], crop[1]["y"]
+    return x1, y1, x2, y2
+
+
 def get_click_list_from_points(pos_points, neg_points):
     clicks_list = []
     for coords in pos_points:

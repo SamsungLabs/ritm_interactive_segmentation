@@ -30,8 +30,12 @@ def send_error_data(func):
 @sly.timeit
 @send_error_data
 def smart_segmentation(api: sly.Api, task_id, context, state, app_logger):
+    x1, y1, x2, y2 = f.get_smart_bbox(context["crop"])
+
     img_path = os.path.join(g.img_dir, "base_image.png")
     base_image_np = f.get_image_by_hash(context["image_hash"], img_path)
+
+    sly.image.crop()
 
     pos_points, neg_points = f.get_pos_neg_points_list_from_context(context)
     clicks_list = f.get_click_list_from_points(pos_points, neg_points)
