@@ -17,3 +17,4 @@ tensorboard
 future
 cffi
 ninja
+diskcache==5.2.1
