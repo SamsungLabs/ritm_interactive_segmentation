@@ -1,5 +1,5 @@
 ## Reviving Iterative Training with Mask Guidance for Interactive Segmentation 
-
+# Try to understanding fork function
 <p align="center">
     <a href="https://paperswithcode.com/sota/interactive-segmentation-on-grabcut?p=reviving-iterative-training-with-mask">
         <img src="https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/reviving-iterative-training-with-mask/interactive-segmentation-on-grabcut"/>
