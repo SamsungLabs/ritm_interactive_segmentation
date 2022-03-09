@@ -7,3 +7,6 @@ pretrained_models
 *.ipynb_checkpoints*
 *.yml
 *.json
+*.jpg
+*.png
+*.bmp
