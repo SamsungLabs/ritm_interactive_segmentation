@@ -205,12 +205,37 @@ class InteractiveDemoApp(ttk.Frame):
                     mask *= 255 // mask.max()
 
                 alpha = np.where(mask == 0, 0, 255)
-                # bgr_mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-                # bgr_mask = cv2.merge((mask, mask, mask, alpha))
-                # transparent_mask = np.dstack([bgr_mask, alpha])
                 rgb_image = cv2.cvtColor(self.image, cv2.COLOR_RGB2BGR)
                 transparent_mask = np.dstack([rgb_image, alpha])
-                cv2.imwrite(filename, transparent_mask)
+
+                h = self.image.shape[0]
+                w = self.image.shape[1]
+                min_px = [w + 100, h + 100]
+                max_px = [-1, -1]
+                for i in range(h):
+                    for j in range(w):
+                        pix_value = mask[i, j]
+                        if pix_value > 0:
+                            if min_px[1] > i:
+                                min_px[1] = i
+                            if min_px[0] > j:
+                                min_px[0] = j
+
+                            if max_px[1] < i:
+                                max_px[1] = i
+                            if max_px[0] < j:
+                                max_px[0] = j
+
+                if min_px == [w + 100, h + 100]:
+                    min_px = [0, 0]
+                if max_px == [-1, -1]:
+                    max_px = [w, h]
+
+                cv2.imwrite(
+                    filename,
+                    transparent_mask[min_px[1]:max_px[1],
+                    min_px[0]:max_px[0]]
+                )
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
