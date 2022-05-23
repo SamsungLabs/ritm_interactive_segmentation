@@ -181,8 +181,8 @@ class InteractiveDemoApp(ttk.Frame):
             ], title="Chose an image")
 
             if len(filename) > 0:
-                image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
-                self.controller.set_image(image)
+                self.image = cv2.cvtColor(cv2.imread(filename), cv2.COLOR_BGR2RGB)
+                self.controller.set_image(self.image)
                 self.save_mask_btn.configure(state=tk.NORMAL)
                 self.load_mask_btn.configure(state=tk.NORMAL)
 
@@ -203,7 +203,14 @@ class InteractiveDemoApp(ttk.Frame):
                 if mask.max() < 256:
                     mask = mask.astype(np.uint8)
                     mask *= 255 // mask.max()
-                cv2.imwrite(filename, mask)
+
+                alpha = np.where(mask == 0, 0, 255)
+                # bgr_mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+                # bgr_mask = cv2.merge((mask, mask, mask, alpha))
+                # transparent_mask = np.dstack([bgr_mask, alpha])
+                rgb_image = cv2.cvtColor(self.image, cv2.COLOR_RGB2BGR)
+                transparent_mask = np.dstack([rgb_image, alpha])
+                cv2.imwrite(filename, transparent_mask)
 
     def _load_mask_callback(self):
         if not self.controller.net.with_prev_mask:
