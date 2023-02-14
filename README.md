@@ -338,12 +338,14 @@ The code is released under the MIT License. It is a short, permissive software l
 ## Citation
 
 If you find this work is useful for your research, please cite our papers:
-```
-@article{reviving2021,
-  title={Reviving Iterative Training with Mask Guidance for Interactive Segmentation},
-  author={Sofiiuk, Konstantin and Petrov, Ilia and Konushin, Anton},
-  journal={arXiv preprint arXiv:2102.06583},
-  year={2021}
+```bibtex
+@inproceedings{ritm2022,
+  title={Reviving iterative training with mask guidance for interactive segmentation},
+  author={Sofiiuk, Konstantin and Petrov, Ilya A and Konushin, Anton},
+  booktitle={2022 IEEE International Conference on Image Processing (ICIP)},
+  pages={3141--3145},
+  year={2022},
+  organization={IEEE}
 }
 
 @inproceedings{fbrs2020,
