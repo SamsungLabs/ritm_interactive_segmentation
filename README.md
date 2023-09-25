@@ -30,7 +30,7 @@ This repository provides the source code for training and testing state-of-the-a
 
 > **Reviving Iterative Training with Mask Guidance for Interactive Segmentation**<br>
 > [Konstantin Sofiiuk](https://github.com/ksofiyuk), [Ilia Petrov](https://github.com/ptrvilya), [Anton Konushin](https://scholar.google.com/citations?user=ZT_k-wMAAAAJ) <br>
-> Samsung AI Center Moscow <br>
+> Samsung Research<br>
 > https://arxiv.org/abs/2102.06583
 >
 > **Abstract:** *Recent works on click-based interactive segmentation have demonstrated state-of-the-art results by 
